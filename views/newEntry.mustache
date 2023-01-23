@@ -14,12 +14,13 @@
   </a>
 {{/user}}
 {{#user}}
+
   <a id="logout" href="/logout" class="btn btn-primary">
     Sign out
   </a>
 {{/user}}
 </div>
-<form method="post" role="form">
+<form method="post" role="form" action="/new">
 <div class="form-group">
 <label for="author">Author</label>
 <input type="text" class="form-control" id="author"
