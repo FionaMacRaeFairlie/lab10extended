@@ -1,6 +1,5 @@
 const guestbookDAO = require("../models/guestbookModel");
 const userDao = require("../models/userModel.js");
-const jwt = require("jsonwebtoken");
 
 const db = new guestbookDAO({ filename: "guestbook.db", autoload: true }); // to set database up in virtual memory use const db = new guestbookDAO();
 db.init();
