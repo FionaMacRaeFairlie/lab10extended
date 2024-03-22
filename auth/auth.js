@@ -18,8 +18,8 @@ exports.login = function (req, res,next) {
     //compare provided password with stored password
     bcrypt.compare(password, user.password, function (err, result) {
       if (result) {
-        //use the payload to store information about the user such as username.
-        let payload = { username: username };
+           //use the payload to store information about the user such as username.
+        let payload = { username: username, role:user.role};
         //create the access token 
         let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET,{expiresIn: 300}); 
         res.cookie("jwt", accessToken);
@@ -36,12 +36,28 @@ exports.verify = function (req, res, next) {
   if (!accessToken) {
     return res.status(403).send();
   }
-  let payload;
-  try {
-    payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-    next();
+   try {
+      next();
   } catch (e) {
     //if an error occured return request unauthorized error
     res.status(401).send();
   }
 };
+
+
+exports.verifyAdmin = function (req, res, next) {
+  let accessToken = req.cookies.jwt;
+  let payload= jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+
+  if (payload.role !="admin"){
+    return res.status(403).send();
+  }
+  try {
+      next();
+  } catch (e) {
+    //if an error occured return request unauthorized error
+    res.status(401).send();
+  }
+};
+
+
